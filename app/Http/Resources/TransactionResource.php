@@ -17,7 +17,7 @@ class TransactionResource extends JsonResource
         return [
             'id' => $this->id,
             'amount' => $this->amount,
-            'currency' => \App\Models\Setting::getValue('currency', '$'),
+            'currency' => \App\Models\Setting::getValue('currency', env('CURRENCY','$')),
             'type' => $this->type,
             'description' => $this->description,
             'reference_type' => $this->reference_type,

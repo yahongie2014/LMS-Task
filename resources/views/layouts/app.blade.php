@@ -43,7 +43,7 @@
             </main>
 
             <footer class="py-12 text-center text-xs font-black text-gray-400 uppercase tracking-widest border-t border-gray-100 dark:border-gray-800 bg-white/30 backdrop-blur-sm">
-                &copy; {{ date('Y') }} {{ config('app.name') }}. {{ __('messages.all_rights_reserved') }}
+                &copy; {{ date('Y') }} {{ config('app.name') }}. {{ __('messages.all_rights_reserved') }} -  <a href="https://github.com/yahongie2014/LMS-Task" target="_blank">Github</a>
             </footer>
         </div>
     </body>

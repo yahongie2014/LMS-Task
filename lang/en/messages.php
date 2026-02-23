@@ -244,4 +244,5 @@ return [
     'settings_saved' => 'Settings saved successfully!',
     'youtube' => 'YouTube',
     'video' => 'Video',
+    'view_website' => 'View Website',
 ];

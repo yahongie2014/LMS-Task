@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\CertificateController;
 use App\Livewire\CourseIndex;
 use App\Livewire\CourseShow;
 use App\Livewire\Dashboard;
 use App\Livewire\LessonShow;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
@@ -11,7 +14,6 @@ Route::get('/', CourseIndex::class)->name('home');
 
 Route::get('/courses/{slug}', CourseShow::class)->name('courses.show');
 
-// Guests can view preview lessons, so we don't apply the auth middleware unconditionally on the route.
 Route::get('/courses/{slug}/lessons/{lesson}', LessonShow::class)->name('lessons.show');
 
 Route::get('dashboard', Dashboard::class)
@@ -25,14 +27,12 @@ Route::view('profile', 'profile')
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/courses/{course:slug}/certificate/preview', [\App\Http\Controllers\CertificateController::class, 'preview'])->name('certificates.preview');
-    Route::post('/courses/{course:slug}/certificate/generate', [\App\Http\Controllers\CertificateController::class, 'generate'])->name('certificates.generate');
+    Route::get('/courses/{course:slug}/certificate/preview', [CertificateController::class, 'preview'])->name('certificates.preview');
+    Route::post('/courses/{course:slug}/certificate/generate', [CertificateController::class, 'generate'])->name('certificates.generate');
 });
 
-Route::get('/certificates/{id}', [\App\Http\Controllers\CertificateController::class, 'show'])->name('certificates.show');
-Route::get('/admin/certificates/{certificate}/download/{lang}', [\App\Http\Controllers\CertificateController::class, 'downloadAdmin'])->name('admin.certificates.download');
-
-
+Route::get('/certificates/{id}', [CertificateController::class, 'show'])->name('certificates.show');
+Route::get('/admin/certificates/{certificate}/download/{lang}', [CertificateController::class, 'downloadAdmin'])->name('admin.certificates.download');
 
 
 Route::get('/server-status', function () {

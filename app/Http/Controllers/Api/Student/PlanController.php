@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Student;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\PlanRepositoryInterface;
+use Illuminate\Http\Request;
 
 class PlanController extends Controller
 {
@@ -14,7 +15,7 @@ class PlanController extends Controller
         $this->planRepository = $planRepository;
     }
 
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
         $perPage = $request->query('per_page', 10);
         $plans = $this->planRepository->allActive((int)$perPage);

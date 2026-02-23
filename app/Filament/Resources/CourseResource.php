@@ -66,6 +66,7 @@ class CourseResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->label(__('messages.image'))
                     ->image()
+                    ->disk('public')
                     ->directory('courses'),
                 Forms\Components\Select::make('level')
                     ->label(__('messages.level'))

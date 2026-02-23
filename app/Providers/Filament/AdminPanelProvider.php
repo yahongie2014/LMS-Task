@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use Filament\Http\Middleware\Authenticate;
+use Filament\Navigation\NavigationItem;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -30,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->authGuard('admin')
-            ->font('Nunito')
+            ->font('Roboto')
             ->brandName('LMS Admin')
             ->sidebarCollapsibleOnDesktop()
             ->colors([
@@ -40,6 +41,12 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'ar']),
                 FilamentShieldPlugin::make(),
+            ])
+            ->navigationItems([
+                NavigationItem::make('View Website')
+                    ->url('/', shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-globe-alt')
+                    ->sort(100),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

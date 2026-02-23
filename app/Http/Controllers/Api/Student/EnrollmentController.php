@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Student;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Student\EnrollRequest;
 use App\Models\Course;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\EnrollmentRepositoryInterface;
@@ -28,7 +29,7 @@ class EnrollmentController extends Controller
         $this->walletRepository = $walletRepository;
     }
 
-    public function store(\App\Http\Requests\Api\Student\EnrollRequest $request)
+    public function store(EnrollRequest $request)
     {
         $user = $request->user();
         $course = $this->courseRepository->findById($request->course_id);

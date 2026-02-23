@@ -8,6 +8,7 @@ use App\Http\Requests\Certificate\PreviewCertificateRequest;
 use App\Http\Resources\CertificateResource;
 use App\Models\Course;
 use App\Repositories\Interfaces\CertificateRepositoryInterface;
+use Illuminate\Http\Request;
 
 class CertificateController extends Controller
 {
@@ -21,12 +22,12 @@ class CertificateController extends Controller
     /**
      * Get a user's certificates
      */
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
         $user = auth()->user();
         $perPage = $request->query('per_page', 10);
         $certificates = $this->certificateRepository->getUserCertificates($user, (int)$perPage);
-        
+
         return $this->successResponse(CertificateResource::collection($certificates)->response()->getData(true));
     }
 

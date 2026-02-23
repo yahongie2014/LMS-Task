@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Instructor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Instructor;
+use App\Repositories\Interfaces\InstructorRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -12,7 +13,7 @@ class AuthController extends Controller
 {
     protected $instructorRepository;
 
-    public function __construct(\App\Repositories\Interfaces\InstructorRepositoryInterface $instructorRepository)
+    public function __construct(InstructorRepositoryInterface $instructorRepository)
     {
         $this->instructorRepository = $instructorRepository;
     }
@@ -21,7 +22,7 @@ class AuthController extends Controller
     {
         $instructor = $this->instructorRepository->findByEmail($request->email);
 
-        if (!$instructor || !\Illuminate\Support\Facades\Hash::check($request->password, $instructor->password)) {
+        if (!$instructor || !Hash::check($request->password, $instructor->password)) {
             return $this->errorResponse(__('messages.invalid_credentials'), 401);
         }
 

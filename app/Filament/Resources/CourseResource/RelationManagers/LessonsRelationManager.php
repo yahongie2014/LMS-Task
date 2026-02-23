@@ -49,6 +49,8 @@ class LessonsRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('title')
+            ->reorderable('order_column')
+            ->defaultSort('order_column', 'asc')
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label(__('messages.title'))

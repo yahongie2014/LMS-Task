@@ -11,6 +11,7 @@ use App\Repositories\Interfaces\AuthRepositoryInterface;
 use App\Services\AuthService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -46,7 +47,7 @@ class AuthController extends Controller
     {
         $model = $this->authRepository->findByEmail($request->email, $request->type);
 
-        if (!$model || !\Hash::check($request->password, $model->password)) {
+        if (!$model || !Hash::check($request->password, $model->password)) {
             return $this->errorResponse(__('Invalid credentials.'), 401);
         }
 
@@ -94,7 +95,7 @@ class AuthController extends Controller
         }
 
         $token = $model->createToken($request->device_name)->plainTextToken;
-        
+
         return $this->successResponse([
             'token' => $token,
             'user' => $model,

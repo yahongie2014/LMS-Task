@@ -72,13 +72,13 @@ class LessonResource extends Resource
                     ->options([
                         'custom' => __('messages.custom_video'),
                         'youtube' => 'YouTube',
-                        'plyr' => __('messages.plyr'),
                     ])
                     ->default('custom')
                     ->live()
                     ->required(),
                 Forms\Components\FileUpload::make('video_url')
                     ->label(__('messages.upload_file'))
+                    ->disk('public')
                     ->directory('lessons/videos')
                     ->acceptedFileTypes(['video/*'])
                     ->visible(fn (\Filament\Forms\Get $get) => $get('video_type') === 'custom')
@@ -86,9 +86,9 @@ class LessonResource extends Resource
                 Forms\Components\TextInput::make('video_url_link')
                     ->label(__('messages.video_url_link'))
                     ->maxLength(255)
-                    ->visible(fn (\Filament\Forms\Get $get) => in_array($get('video_type'), ['youtube', 'plyr']))
+                    ->visible(fn (\Filament\Forms\Get $get) => in_array($get('video_type'), ['youtube']))
                     ->formatStateUsing(fn ($record) => $record?->video_type !== 'custom' ? $record?->video_url : null)
-                    ->required(fn (\Filament\Forms\Get $get) => in_array($get('video_type'), ['youtube', 'plyr'])),
+                    ->required(fn (\Filament\Forms\Get $get) => in_array($get('video_type'), ['youtube'])),
                 Forms\Components\TextInput::make('order_column')
                     ->label(__('messages.order_column'))
                     ->required()
@@ -107,6 +107,13 @@ class LessonResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('order_column')
+            ->defaultSort('order_column', 'asc')
+            ->defaultGroup(
+                Tables\Grouping\Group::make('course.title_en')
+                    ->label(__('messages.course_title'))
+                    ->collapsible()
+            )
             ->columns([
                 Tables\Columns\ImageColumn::make('preview')
                     ->label(__('messages.preview_certificate'))

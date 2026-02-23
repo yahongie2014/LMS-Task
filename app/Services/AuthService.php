@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Otp;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -23,12 +24,10 @@ class AuthService
         if ($model) {
             $model->otps()->create($data);
         } else {
-            \App\Models\Otp::create($data);
+            Otp::create($data);
         }
-
-        // MOCK: Sending OTP via SMS
         Log::info("OTP for {$phone}: {$otpCode}");
-        
+
         return $otpCode;
     }
 
@@ -37,7 +36,7 @@ class AuthService
      */
     public function verifyOtp($phone, $otpCode)
     {
-        $otp = \App\Models\Otp::where('phone', $phone)
+        $otp = Otp::where('phone', $phone)
             ->where('otp', $otpCode)
             ->whereNull('verified_at')
             ->where('expires_at', '>', Carbon::now())

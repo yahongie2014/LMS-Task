@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Student;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Student\StoreSubscriptionRequest;
 use App\Models\Subscription;
 use App\Repositories\Interfaces\PlanRepositoryInterface;
 use App\Repositories\Interfaces\WalletRepositoryInterface;
@@ -25,7 +26,7 @@ class SubscriptionController extends Controller
         $this->subscriptionRepository = $subscriptionRepository;
     }
 
-    public function store(\App\Http\Requests\Api\Student\StoreSubscriptionRequest $request)
+    public function store(StoreSubscriptionRequest $request)
     {
         $plan = $this->planRepository->findBySlug($request->plan_slug);
         $user = $request->user();

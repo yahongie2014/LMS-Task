@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Setting;
 use Illuminate\Http\JsonResponse;
 
 trait ApiResponse
@@ -19,7 +20,7 @@ trait ApiResponse
         return response()->json([
             'status' => 'success',
             'message' => $message,
-            'currency' => \App\Models\Setting::getValue('currency', '$'),
+            'currency' => Setting::getValue('currency', env("CURRENCY")),
             'data' => $data,
         ], $code);
     }

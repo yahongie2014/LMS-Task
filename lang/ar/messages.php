@@ -87,9 +87,6 @@ return [
     'view_certification' => 'عرض تفاصيل الشهادة',
     'free_preview' => 'عرض مجاني',
     'join_course' => 'انضم للدورة',
-    'beginner' => 'مبتدئ',
-    'intermediate' => 'متوسط',
-    'advanced' => 'متقدم',
     'need_help' => 'هل تحتاج مساعدة؟',
     'discord_desc' => 'تواصل مع المرشدين والطلاب الآخرين في مجتمع Discord الخاص بنا.',
     'join_community' => 'انضم للمجتمع',
@@ -230,4 +227,5 @@ return [
     'settings_saved' => 'تم حفظ الإعدادات بنجاح!',
     'youtube' => 'يوتيوب',
     'video' => 'فيديو',
+    'view_website' => 'عرض الموقع',
 ];

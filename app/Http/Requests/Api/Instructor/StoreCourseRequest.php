@@ -6,7 +6,7 @@ use App\Http\Requests\Api\BaseApiRequest;
 
 class StoreCourseRequest extends BaseApiRequest
 {
-        public function authorize(): bool
+    public function authorize(): bool
     {
         return true;
     }

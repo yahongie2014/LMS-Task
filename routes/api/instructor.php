@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\Api\Instructor\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Instructor\AuthController;
+use App\Http\Controllers\Api\Instructor\CourseController;
 
-Route::post('/login', [\App\Http\Controllers\Api\Instructor\AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:instructor')->group(function () {
-    Route::get('/profile', [\App\Http\Controllers\Api\Instructor\ProfileController::class, 'show']);
-    Route::get('/courses', [\App\Http\Controllers\Api\Instructor\CourseController::class, 'index']);
-    Route::post('/courses', [\App\Http\Controllers\Api\Instructor\CourseController::class, 'store']);
-    Route::put('/courses/{course}', [\App\Http\Controllers\Api\Instructor\CourseController::class, 'update']);
+    Route::get('/profile', [ProfileController::class, 'show']);
+    Route::get('/courses', [CourseController::class, 'index']);
+    Route::post('/courses', [CourseController::class, 'store']);
+    Route::put('/courses/{course}', [CourseController::class, 'update']);
 });

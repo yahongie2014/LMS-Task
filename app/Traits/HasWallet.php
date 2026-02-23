@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use App\Models\Wallet;
-use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 
 trait HasWallet
@@ -35,7 +34,7 @@ trait HasWallet
 
         return DB::transaction(function () use ($amount, $description, $reference) {
             $wallet = $this->wallet()->firstOrCreate([], ['balance' => 0]);
-            
+
             $wallet->balance += $amount;
             $wallet->save();
 

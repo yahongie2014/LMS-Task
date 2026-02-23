@@ -7,7 +7,7 @@ use App\Http\Requests\Api\BaseApiRequest;
 class SendOtpRequest extends BaseApiRequest
 {
 
-        public function authorize(): bool
+    public function authorize(): bool
     {
         return true;
     }

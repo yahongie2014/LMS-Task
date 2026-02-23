@@ -1,12 +1,14 @@
 <div class="max-w-7xl mx-auto py-20 px-4 sm:px-6 lg:px-8">
     <!-- Header -->
-    <div class="mb-16">
-        <h1 class="text-6xl font-black tracking-tighter text-gray-900 dark:text-white mb-4">
-            {{ __('messages.welcome_back') }} <span class="text-gradient">{{ auth()->user()->name }}</span>
-        </h1>
-        <p class="text-xl text-gray-500 dark:text-gray-400 font-medium font-inter leading-relaxed">
-            {{ __('messages.dashboard_subtitle') }}
-        </p>
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+        <div>
+            <h1 class="text-6xl font-black tracking-tighter text-gray-900 dark:text-white mb-4">
+                {{ __('messages.welcome_back') }} <span class="text-gradient">{{ auth()->user()->name }}</span>
+            </h1>
+            <p class="text-xl text-gray-500 dark:text-gray-400 font-medium font-inter leading-relaxed">
+                {{ __('messages.dashboard_subtitle') }}
+            </p>
+        </div>
     </div>
 
     <!-- Stats Grid -->

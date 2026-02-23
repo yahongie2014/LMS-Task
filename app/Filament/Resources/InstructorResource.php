@@ -23,7 +23,7 @@ class InstructorResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('messages.management');
+        return __('messages.security');
     }
 
     public static function getModelLabel(): string

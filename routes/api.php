@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -9,12 +11,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Public routes
-Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
-Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 // OTP Authentication
-Route::post('/auth/send-otp', [\App\Http\Controllers\Api\AuthController::class, 'sendOtp']);
-Route::post('/auth/verify-otp', [\App\Http\Controllers\Api\AuthController::class, 'verifyOtp']);
+Route::post('/auth/send-otp', [AuthController::class, 'sendOtp']);
+Route::post('/auth/verify-otp', [AuthController::class, 'verifyOtp']);
 
 
 // Student Routes
@@ -23,7 +25,6 @@ Route::prefix('student')->group(base_path('routes/api/student.php'));
 // Instructor Routes
 Route::prefix('instructor')->group(base_path('routes/api/instructor.php'));
 
-// Common/Legacy Routes (Optional: if you want to keep existing ones working)
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/profile', [\App\Http\Controllers\Api\ProfileController::class, 'show']);
+    Route::get('/profile', [ProfileController::class, 'show']);
 });
