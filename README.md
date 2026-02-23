@@ -1,4 +1,4 @@
-# Mini-LMS: Pro Digital Learning Platform
+# Mini-LMS: Pro Digital Learning Platform [Reference](https://app.code-quests.com/quest-view/76)
 
 A high-performance, scalable Learning Management System built with **Laravel 11**, **Livewire v3**, **Sanctum**, and **Filament v3**. This project features a robust **Repository Design Pattern**, full **Multi-language support (AR/EN)**, and a production-grade **Mobile API**.
 
