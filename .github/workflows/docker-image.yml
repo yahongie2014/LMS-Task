@@ -1,0 +1,69 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, intl, pdo_sqlite
+
+    - name: Install Composer dependencies
+      run: composer install --no-progress --no-interaction --prefer-dist
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install NPM dependencies
+      run: npm install
+
+    - name: Build assets
+      run: npm run build
+
+    - name: Create .env file and database
+      run: |
+        cp .env.example .env
+        php artisan key:generate --force
+        mkdir -p database storage/logs bootstrap/cache
+        touch database/database.sqlite storage/logs/laravel.log
+        chmod -R 777 storage bootstrap/cache database
+
+    - name: Build the Docker images
+      run: docker compose -f docker/docker-compose.yml build
+
+    - name: Start Services
+      run: docker compose -f docker/docker-compose.yml up -d
+
+    - name: Run Migrations and Tests
+      run: |
+        # Get APP_KEY safely
+        export APP_KEY=$(grep '^APP_KEY=' .env | head -n 1 | cut -d '=' -f2-)
+        
+        # Run migrations inside container
+        docker compose -f docker/docker-compose.yml exec -T \
+          -e DB_CONNECTION=sqlite \
+          -e DB_DATABASE=/var/www/database/database.sqlite \
+          -e APP_KEY="$APP_KEY" \
+          app php artisan migrate --force
+        
+        # Clear caches inside container to be safe
+        docker compose -f docker/docker-compose.yml exec -T app php artisan optimize:clear
+        
+        # Run tests
+        docker compose -f docker/docker-compose.yml exec -T -e APP_KEY="$APP_KEY" app php artisan test
+
+    - name: Shutdown Services
+      if: always()
+      run: docker compose -f docker/docker-compose.yml down

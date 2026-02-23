@@ -1,0 +1,890 @@
+{
+  "info": {
+    "_postman_id": "e2f8ed74-1234-5678-b333-cece0e65fbcc",
+    "name": "LMS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.request.headers.add({key: 'Accept', value: 'application/json'});",
+          "pm.request.headers.add({key: 'Accept-Language', value: pm.environment.get('locale') || 'ar'});"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Instructor API",
+      "item": [
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "Register",
+              "id": "30fba04a-2789-4c17-87bf-141242b0a2a4",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Instructor Name\",\n    \"email\": \"instructor@lms.com\",\n    \"phone\": \"01091950488\",\n    \"password\": \"12345678\",\n    \"password_confirmation\": \"12345678\",\n    \"type\": \"instructor\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/register",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login",
+              "id": "d197bd30-d944-4a44-a5b7-6594ce1da364",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"instructor@lms.com\",\n    \"password\": \"12345678\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/instructor/login",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "instructor",
+                    "login"
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "var jsonData = pm.response.json();",
+                      "if (jsonData.data && jsonData.data.token) {",
+                      "    pm.collectionVariables.set('instructor_token', jsonData.data.token);",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "Send OTP",
+              "id": "fa08eec0-fae2-4e6e-8b15-8ffe978ac4cc",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"phone\": \"01091950488\",\n    \"type\": \"instructor\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/auth/send-otp",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "send-otp"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Verify OTP",
+              "id": "92941342-ba7b-49fe-8849-d9be74e99682",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"phone\": \"01091950488\",\n    \"otp\": \"12345678\",\n    \"type\": \"instructor\",\n    \"device_name\": \"postman\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/auth/verify-otp",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "verify-otp"
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "var jsonData = pm.response.json();",
+                      "if (jsonData.data && jsonData.data.token) {",
+                      "    pm.collectionVariables.set('instructor_token', jsonData.data.token);",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "response": []
+            }
+          ],
+          "id": "42b65f5e-000a-4151-b675-3f565854ccfe"
+        },
+        {
+          "name": "Profile",
+          "item": [
+            {
+              "name": "Get Profile",
+              "id": "0fc0069b-8ae9-4955-9949-8d4c5061abff",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/instructor/profile",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "instructor",
+                    "profile"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "8cd60682-ee2a-4ffd-9388-28aa135f0443"
+        },
+        {
+          "name": "Courses",
+          "item": [
+            {
+              "name": "List Courses",
+              "id": "437caf87-b5fb-4f69-a6bd-918288dae223",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/instructor/courses",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "instructor",
+                    "courses"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Course",
+              "id": "fbcec3a1-ff0d-4a8f-995d-a7fd4fc84214",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"title_en\": \"New Course EN\",\n    \"title_ar\": \"New Course AR\",\n    \"description_en\": \"Description EN\",\n    \"description_ar\": \"Description AR\",\n    \"level\": \"beginner\",\n    \"price\": 99.99,\n    \"duration\": 60\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/instructor/courses",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "instructor",
+                    "courses"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Course",
+              "id": "25666907-770a-4a00-8383-fd2494e2f85d",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"title_en\": \"Updated Title EN\",\n    \"title_ar\": \"Updated Title AR\",\n    \"description_en\": \"Updated Description EN\",\n    \"description_ar\": \"Updated Description AR\",\n    \"level\": \"intermediate\",\n    \"price\": 149.99,\n    \"duration\": 90\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/instructor/courses/:id",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "instructor",
+                    "courses",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "28c80b16-b614-4fb5-bda1-24153a7b6d73"
+        }
+      ],
+      "id": "c9fef9d4-2e45-44db-bb6d-2c2656cbb047",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{instructor_token}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Student API",
+      "item": [
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "Register",
+              "id": "2d48f668-8b5e-44bb-90e3-cf2ab251056a",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Student Name\",\n    \"email\": \"student@lms.com\",\n    \"phone\": \"01091950488\",\n    \"password\": \"12345678\",\n    \"password_confirmation\": \"12345678\",\n    \"type\": \"user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/register",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login",
+              "id": "43b46034-a76f-4553-bbdf-b0d263d40c4b",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"student@lms.com\",\n    \"password\": \"12345678\",\n    \"type\": \"user\",\n    \"device_name\": \"postman\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/login",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "var jsonData = pm.response.json();",
+                      "if (jsonData.data && jsonData.data.token) {",
+                      "    pm.collectionVariables.set('student_token', jsonData.data.token);",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "Send OTP",
+              "id": "0fd58922-51f6-4f71-8046-e2d3f7adc8b2",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"phone\": \"01091950488\",\n    \"type\": \"user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/auth/send-otp",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "send-otp"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Verify OTP",
+              "id": "5687abae-c8a2-44a8-860a-091fb413b277",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"phone\": \"01091950488\",\n    \"otp\": \"138493\",\n    \"type\": \"user\",\n    \"device_name\": \"postman\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/auth/verify-otp",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "verify-otp"
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "var jsonData = pm.response.json();",
+                      "if (jsonData.data && jsonData.data.token) {",
+                      "    pm.collectionVariables.set('student_token', jsonData.data.token);",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "response": []
+            }
+          ],
+          "id": "97797045-8d7e-41dc-82a2-eb9b1bf9074f"
+        },
+        {
+          "name": "Profile",
+          "item": [
+            {
+              "name": "Get Profile",
+              "id": "2dc30525-0bf4-4903-8aca-fa8bbc4e459d",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/student/profile",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "profile"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Profile",
+              "id": "afd7bac7-2618-4f8e-8047-36c20bdc07f9",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Student Name\",\n    \"email\": \"student@lms.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/student/profile",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "profile"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Password",
+              "id": "919ee4ec-f258-4aa0-b2f7-4d23fe34dcea",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"current_password\": \"password\",\n    \"password\": \"new-password\",\n    \"password_confirmation\": \"new-password\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/student/profile/password",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "profile",
+                    "password"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "b357f342-8804-4c03-b542-e1857655f36d"
+        },
+        {
+          "name": "Courses",
+          "item": [
+            {
+              "name": "List Courses",
+              "id": "c3966381-19a3-4dfd-99f9-e88a09a9c479",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/student/courses",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "courses"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Show Course",
+              "id": "02fc14cb-d155-4e21-8f19-b00f418ce9e8",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/student/courses/:slug",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "courses",
+                    ":slug"
+                  ],
+                  "variable": [
+                    {
+                      "key": "slug",
+                      "value": "course-slug"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "6b86f2e8-76b4-49cf-bcf9-85f111732763"
+        },
+        {
+          "name": "Lessons",
+          "item": [
+            {
+              "name": "Show Lesson",
+              "id": "108abb5f-c044-45e4-a224-acabe2a9724f",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/student/courses/:courseId/lessons/:id",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "courses",
+                    ":courseId",
+                    "lessons",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "courseId",
+                      "value": "1"
+                    },
+                    {
+                      "key": "id",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "40186dd4-00e2-4a9a-aae3-18cb4b01ebe4"
+        },
+        {
+          "name": "Certificates",
+          "item": [
+            {
+              "name": "List Certificates",
+              "id": "f61120f2-dc9a-4100-9819-fb9ae859534c",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/student/certificates",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "certificates"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Show Certificate",
+              "id": "48d126e7-79ef-4621-ad9b-3efe49564d60",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/student/certificates/:id",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "certificates",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Preview Certificate",
+              "id": "6a3aa79b-f86e-4033-b516-8d4d892f4d70",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/student/courses/:course/certificate-preview",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "courses",
+                    ":course",
+                    "certificate-preview"
+                  ],
+                  "variable": [
+                    {
+                      "key": "course",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Generate Certificate",
+              "id": "8473aa44-a007-4124-b1d3-ef9ee34a895d",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/student/courses/:course/certificate-generate",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "courses",
+                    ":course",
+                    "certificate-generate"
+                  ],
+                  "variable": [
+                    {
+                      "key": "course",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "ea4bb6a8-2ba1-4252-86a7-083b350f93cd"
+        },
+        {
+          "name": "Financial",
+          "item": [
+            {
+              "name": "Wallet",
+              "id": "e0dfe70c-234a-4f28-80a2-671da224148a",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/student/wallet",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "wallet"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Deposit",
+              "id": "073b9404-3ac4-42e9-83a7-3a17934c3011",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"amount\": 500\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/student/wallet/deposit",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "wallet",
+                    "deposit"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Plans",
+              "id": "851040b6-bd7e-4aa0-a362-e1e0d7021fe9",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/student/plans",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "plans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Subscribe",
+              "id": "9c9b7c2f-1d3e-4500-8278-0d20122581b8",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"plan_slug\": \"premium-plan\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/student/subscribe",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "subscribe"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "1a05c7e2-1280-418f-8647-06da15d14fda"
+        },
+        {
+          "name": "Enrollments",
+          "item": [
+            {
+              "name": "Enroll in Course",
+              "id": "7bea7d48-14de-4cac-b6b7-80828d5cbfd5",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"course_id\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/student/enroll",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "enroll"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "62597ebd-b52e-4f09-b511-f46797921975"
+        }
+      ],
+      "id": "84b62d39-095a-4974-8dd8-470c378138c0",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{student_token}}",
+            "type": "string"
+          }
+        ]
+      },
+      "variable": [
+        {
+          "key": "student_token",
+          "value": "",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseurl",
+      "value": "http://localhost:8000/api",
+      "type": "string"
+    },
+    {
+      "key": "student_token",
+      "value": "your_student_token_here",
+      "type": "string"
+    },
+    {
+      "key": "instructor_token",
+      "value": "your_instructor_token_here",
+      "type": "string"
+    }
+  ]
+}
